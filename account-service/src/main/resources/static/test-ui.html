@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Account Service UI</title>
+</head>
+
+<body>
+    <h1>💼 Kontoübersicht</h1>
+    <button onclick="loadAccounts()">🔄 Alle Konten anzeigen</button>
+    <ul id="accountList"></ul>
+
+    <h2>➕ Neues Konto erstellen</h2>
+    <input id="owner" placeholder="Name" />
+    <input id="balance" type="number" placeholder="Startguthaben" />
+    <button onclick="createAccount()">Konto erstellen</button>
+
+    <h2>💸 Überweisen</h2>
+    <input id="fromId" type="number" placeholder="Von Konto-ID" />
+    <input id="toId" type="number" placeholder="Zu Konto-ID" />
+    <input id="amount" type="number" placeholder="Betrag" />
+    <button onclick="transfer()">Überweisen</button>
+
+    <script>
+        const BASE_URL = "http://localhost:8081/api/accounts";
+
+        function loadAccounts() {
+            fetch(BASE_URL)
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById("accountList");
+                    list.innerHTML = "";
+                    data.forEach(acc => {
+                        const li = document.createElement("li");
+                        li.textContent = `ID: ${acc.id}, Besitzer: ${acc.owner}, Guthaben: ${acc.balance} €`;
+                        list.appendChild(li);
+                    });
+                });
+        }
+
+        function createAccount() {
+            const owner = document.getElementById("owner").value;
+            const balance = parseFloat(document.getElementById("balance").value);
+            fetch(BASE_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ owner, balance })
+            }).then(() => {
+                loadAccounts();
+            });
+        }
+
+        function transfer() {
+            const fromAccountId = parseInt(document.getElementById("fromId").value);
+            const toAccountId = parseInt(document.getElementById("toId").value);
+            const amount = parseFloat(document.getElementById("amount").value);
+            fetch(BASE_URL + "/transfer", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fromAccountId, toAccountId, amount })
+            }).then(() => {
+                loadAccounts();
+            });
+        }
+    </script>
+</body>
+
+</html>

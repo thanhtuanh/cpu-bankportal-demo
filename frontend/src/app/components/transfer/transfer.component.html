@@ -1,15 +1,9 @@
-<h2>Überweisung</h2>
-<form (ngSubmit)="submitTransfer()" #transferForm="ngForm">
-  <label>Von Konto-ID:
-    <input type="number" [(ngModel)]="transferData.fromAccountId" name="fromAccountId" required>
-  </label><br>
-  <label>Zu Konto-ID:
-    <input type="number" [(ngModel)]="transferData.toAccountId" name="toAccountId" required>
-  </label><br>
-  <label>Betrag (€):
-    <input type="number" [(ngModel)]="transferData.amount" name="amount" required>
-  </label><br><br>
-  <button type="submit">Überweisen</button>
-</form>
+<h3>💸 Überweisen</h3>
+
+<input type="text" [(ngModel)]="transferData.fromAccountId" placeholder="Von Konto-ID">
+<input type="text" [(ngModel)]="transferData.toAccountId" placeholder="Zu Konto-ID">
+<input type="text" [(ngModel)]="transferData.amount" placeholder="Betrag">
+
+<button (click)="submitTransfer()">Überweisen</button>
 
 <p *ngIf="message">{{ message }}</p>

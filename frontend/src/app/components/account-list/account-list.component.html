@@ -1,17 +1,17 @@
-<h2>Kontenübersicht</h2>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Inhaber</th>
-      <th>Guthaben</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let account of accounts">
-      <td>{{ account.id }}</td>
-      <td>{{ account.owner }}</td>
-      <td>{{ account.balance | currency:'EUR' }}</td>
-    </tr>
-  </tbody>
-</table>
+<h2>🏦 Kontoübersicht</h2>
+<ul>
+  <li *ngFor="let account of accounts">
+    💼 ID: {{account.id}}, Besitzer: {{account.owner}}, Guthaben: {{account.balance}} €
+  </li>
+</ul>
+
+<h3>➕ Neues Konto erstellen</h3>
+<input [(ngModel)]="newOwner" placeholder="Name" />
+<input [(ngModel)]="newBalance" placeholder="Startguthaben" type="String" />
+<button (click)="createAccount()">Konto erstellen</button>
+
+<h3>💸 Überweisen</h3>
+<input [(ngModel)]="fromAccountId" placeholder="Von Konto-ID" type="number" />
+<input [(ngModel)]="toAccountId" placeholder="Zu Konto-ID" type="number" />
+<input [(ngModel)]="amount" placeholder="Betrag" type="number" />
+<button (click)="transfer()">Überweisen</button>

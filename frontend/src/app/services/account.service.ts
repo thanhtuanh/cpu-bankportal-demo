@@ -8,7 +8,7 @@ import { TransferRequest } from '../models/transfer-request';
   providedIn: 'root'
 })
 export class AccountService {
-  private apiUrl = 'http://localhost:8082/accounts';
+  private apiUrl = 'http://localhost:8081/api/accounts';
 
   constructor(private http: HttpClient) {}
 
