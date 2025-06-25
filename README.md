@@ -58,33 +58,25 @@ Das Bankportal-Demo besteht aus zwei Hauptkomponenten:
 
 ---
 
-## ▶️ Lokaler Start
+## ▶️ Lokaler Start (nur mit Docker Compose)
 
-### 1. Backend starten
+Stelle sicher, dass **Docker** und **Docker Compose** auf deinem System installiert sind.
 
-```bash
-cd backend
-./mvnw spring-boot:run
-# oder via Docker
-docker build -t cpu-backend .
-docker run -p 8080:8080 cpu-backend
-```
-
-### 2. Frontend starten
-
-```bash
-cd frontend
-npm install
-ng serve
-# oder via Docker
-docker build -t cpu-frontend .
-docker run -p 4200:80 cpu-frontend
-```
-
-### 3. Alternativ: Docker Compose
+Im Hauptverzeichnis des Projekts:
 
 ```bash
 docker-compose up --build
+```
+
+> Dadurch werden Backend und Frontend automatisch als Container gestartet.
+>
+> - Das Backend ist erreichbar unter: [http://localhost:8080](http://localhost:8080)
+> - Das Frontend ist erreichbar unter: [http://localhost:4200](http://localhost:4200)
+
+**Tipp:**  
+Mit `docker-compose down` kannst du alle gestarteten Container wieder stoppen.
+
+---
 ```
 
 ---
