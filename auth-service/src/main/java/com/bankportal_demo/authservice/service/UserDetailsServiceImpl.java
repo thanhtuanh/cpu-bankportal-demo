@@ -1,7 +1,7 @@
-package com.mybookstore.authservice.service;
+package com.bankportal_demo.authservice.service;
 
-import com.mybookstore.authservice.model.UserEntity;
-import com.mybookstore.authservice.repository.UserRepository;
+import com.bankportal_demo.authservice.model.UserEntity;
+import com.bankportal_demo.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,4 +1,4 @@
-package com.mybookstore.authservice.dto;
+package com.bankportal_demo.authservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.mybookstore.authservice.model;
+package com.bankportal_demo.authservice.model;
 
 import jakarta.persistence.*;
 import lombok.*;

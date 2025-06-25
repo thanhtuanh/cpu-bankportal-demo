@@ -1,4 +1,4 @@
-package com.mybookstore.authservice.config;
+package com.bankportal_demo.authservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,5 @@
-package com.mybookstore.authservice.controller;
+package com.bankportal_demo.authservice.controller;
 
-import com.mybookstore.authservice.model.UserEntity;
-import com.mybookstore.authservice.repository.UserRepository;
-import com.mybookstore.authservice.service.JwtService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.bankportal_demo.authservice.repository.UserRepository;
+import com.bankportal_demo.authservice.service.JwtService;
+import com.bankportal_demo.authservice.model.UserEntity;
 
 @RestController
 @RequestMapping("/api/auth")

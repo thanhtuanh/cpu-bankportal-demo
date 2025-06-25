@@ -1,6 +1,6 @@
-package com.mybookstore.authservice.security;
+package com.bankportal_demo.authservice.security;
 
-import com.mybookstore.authservice.service.UserDetailsServiceImpl;
+import com.bankportal_demo.authservice.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;

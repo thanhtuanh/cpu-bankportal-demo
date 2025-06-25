@@ -1,6 +1,6 @@
-package com.mybookstore.authservice.repository;
+package com.bankportal_demo.authservice.repository;
 
-import com.mybookstore.authservice.model.UserEntity;
+import com.bankportal_demo.authservice.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,12 +1,12 @@
-package com.mybookstore.authservice.service;
+package com.bankportal_demo.authservice.service;
 
-import com.mybookstore.authservice.dto.LoginRequest;
+import com.bankportal_demo.authservice.dto.LoginRequest;
 
 // Ensure the LoginRequest class exists in the specified package
-// If it does not exist, create it in the com.mybookstore.authservice.dto package
-import com.mybookstore.authservice.dto.LoginResponse;
-import com.mybookstore.authservice.model.User;
-import com.mybookstore.authservice.repository.UserRepository;
+// If it does not exist, create it in the com.bankportal_demo.authservice.dto package
+import com.bankportal_demo.authservice.dto.LoginResponse;
+import com.bankportal_demo.authservice.model.User;
+import com.bankportal_demo.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

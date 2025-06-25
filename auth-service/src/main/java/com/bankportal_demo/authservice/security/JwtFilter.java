@@ -1,7 +1,7 @@
-package com.mybookstore.authservice.security;
+package com.bankportal_demo.authservice.security;
 
-import com.mybookstore.authservice.service.JwtService;
-import com.mybookstore.authservice.service.UserDetailsServiceImpl;
+import com.bankportal_demo.authservice.service.JwtService;
+import com.bankportal_demo.authservice.service.UserDetailsServiceImpl;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import lombok.RequiredArgsConstructor;

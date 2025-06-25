@@ -1,4 +1,4 @@
-package com.mybookstore.authservice.service;
+package com.bankportal_demo.authservice.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
