@@ -1,24 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; // Für ngModel
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { AppRoutingModule } from './app-routing.module';
-import { MatPaginatorModule } from '@angular/material/paginator';  // MatPaginator importieren
-import { NgxPaginationModule } from 'ngx-pagination';  // Pagination-Modul importieren
+
+import { AppComponent } from './app.component';
+import { AccountListComponent } from './components/account-list/account-list.component';
+import { TransferComponent } from './components/transfer/transfer.component';
 
 @NgModule({
   declarations: [
-    // Deine Komponenten hier
+    AppComponent,
+    AccountListComponent,
+    TransferComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    CommonModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MatPaginatorModule,
-    NgxPaginationModule  // Pagination-Modul hier hinzufügen
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,93 +1,116 @@
-# 📚 MyBookstore Microservices
 
-**MyBookstore Microservices** ist eine erweiterte Version des Projekts [MyBookstore](https://github.com/thanhtuanh/mybookstore), das auf eine Microservice-Architektur umgestellt wurde. Ziel ist die Modularisierung und Skalierbarkeit der Anwendung auf Basis moderner Java- und Angular-Technologien.
+# 💼 CPU Bankportal Demo – Fullstack Java + Angular
 
----
-
-## 🏗️ Architekturübersicht
-
-Die Anwendung besteht aus folgenden Microservices:
-
-- 🔐 `auth-service` – Benutzerverwaltung & Login mit JWT
-- 📘 `book-service` – Buchverwaltung mit Suche, CRUD, Kategorien
-- 🌐 `frontend` – Angular-Frontend (SPA)
-- 🟢 `postgres-auth` – Datenbank für auth-service
-- 🟢 `postgres-book` – Datenbank für book-service
-
-Alle Services sind über Docker Compose orchestriert.
+Dieses Projekt wurde im Rahmen meiner Bewerbung bei der **CPU Consulting & Software GmbH** als *Fullstack Entwickler (m/w/d)* erstellt.  
+Es demonstriert eine moderne Webanwendung mit **Spring Boot (Java)** und **Angular (TypeScript)** im Microservice-Stil, ergänzt durch **Docker**, REST-API und Clean Code Prinzipien.
 
 ---
 
-## 🚀 Starten des Projekts
+## 🚀 Projektübersicht
 
-### Voraussetzungen
+Das Bankportal-Demo besteht aus zwei Hauptkomponenten:
 
-- Docker + Docker Compose
-- Java 21 (für lokale Tests)
-- Node.js + Angular CLI (wenn Frontend lokal getestet wird)
+- **Frontend:** Angular-Anwendung mit TypeScript, Angular Material, SCSS  
+- **Backend:** Spring Boot Microservices mit REST-API, Datenpersistenz und Service-Kommunikation
 
-### Lokaler Start (mit Docker)
+### 🏦 Funktionen (Demo-Zweck)
+
+| Funktion | Beschreibung |
+|----------|--------------|
+| Kontoübersicht | Anzeige vorhandener Konten mit Salden (Backend-API: `/accounts`) |
+| Überweisung ausführen | Formular zur Durchführung einer einfachen Überweisung (POST `/transfers`) |
+| Benutzerliste | Statische Benutzerübersicht (Optional erweiterbar) |
+| Login (optional) | Dummy-Login oder JWT-basiert möglich |
+
+---
+
+## 🧰 Verwendete Technologien
+
+### 📌 Backend
+- Java 17
+- Spring Boot 3 (Web, Data JPA, Validation)
+- REST API, DTOs, Exception Handling
+- H2 / PostgreSQL
+- Docker, Docker Compose
+
+### 💡 Frontend
+- Angular 17
+- TypeScript, Angular Material, SCSS
+- Reactive Forms, HttpClient
+- Routing & Komponentenstruktur
+
+### 🛠 DevOps & Tools
+- Dockerfile, `docker-compose.yml`
+- Git, GitHub Actions (Optional: Jenkins)
+- Maven Wrapper
+
+---
+
+## 🧪 Architekturüberblick
+
+```text
++----------------+        REST        +------------------+
+|   Angular App  | <----------------> | Spring Boot API  |
++----------------+                   +------------------+
+    Kontoansicht                         /accounts
+    Überweisungsformular                 /transfers
+````
+
+---
+
+## ▶️ Lokaler Start
+
+### 1. Backend starten
+
+```bash
+cd backend
+./mvnw spring-boot:run
+# oder via Docker
+docker build -t cpu-backend .
+docker run -p 8080:8080 cpu-backend
+```
+
+### 2. Frontend starten
+
+```bash
+cd frontend
+npm install
+ng serve
+# oder via Docker
+docker build -t cpu-frontend .
+docker run -p 4200:80 cpu-frontend
+```
+
+### 3. Alternativ: Docker Compose
 
 ```bash
 docker-compose up --build
 ```
 
-Frontend ist erreichbar unter [http://localhost:4200](http://localhost:4200)
+---
+
+## 📸 Screenshots
+
+> (Hier ggf. Screenshots des Frontends einfügen)
 
 ---
 
-## 🛆 Technologien
+## 💬 Zielsetzung & Bezug zur Stelle
 
-- **Backend:** Spring Boot 3, Spring Security 6, JWT, JPA (Hibernate)
-- **Frontend:** Angular 17, TypeScript, Bootstrap
-- **Datenbanken:** PostgreSQL
-- **Containerisierung:** Docker, Docker Compose
-- **API-Dokumentation:** Swagger / springdoc-openapi
+Dieses Demo-Projekt zeigt meine Fähigkeiten im Bereich:
 
----
+* **Fullstack-Entwicklung mit Java, Spring Boot und Angular**
+* **Clean Code, Layering und RESTful API Design**
+* **Modularer Aufbau und DevOps-Ansätze mit Docker**
 
-## ✅ Nächste Schritte (in Planung)
-
-- ✅ JWT-basierte Authentifizierung
-- 🔄 Unit & Integration Tests (JUnit + Testcontainers)
-- ⚙️ CI/CD mit GitHub Actions oder GitLab CI
-- ☁️ Deployment in der Cloud (z. B. Okteto, Heroku oder Kubernetes)
-- 📊 Healthchecks & Logging
+Ich freue mich darauf, dieses Projekt im persönlichen Gespräch weiter zu erläutern und gemeinsam mit dem CPU-Team spannende Softwarelösungen zu gestalten.
 
 ---
 
-## 🧪 Test-Zugang
+## 👤 Autor
 
-Benutzer für ersten Login:
+**Duc Thanh Nguyen**
+🔗 [GitHub-Portfolio mit weiteren Projekten](https://github.com/thanhtuanh/bewerbung)
+📧 [n.thanh@gmx.de](mailto:n.thanh@gmx.de)
 
 ```
-Username: admin
-Passwort: admin
-```
-
----
-
-## 📂 Projektstruktur
-
-```
-mybookstore-microservices/
-├── auth-service/         # Login & Registrierung
-├── book-service/         # Buchmanagement
-├── frontend/             # Angular-App
-├── docker-compose.yml    # Startet alle Services
-├── init-db.sql           # Initialdaten für PostgreSQL
-└── README.md
-```
-
----
-
-## 🧑‍💻 Autor
-
-> Erstellt von **Thanh** – Senior Java Fullstack Entwickler  
-> Kontakt bei Fragen: [E-Mail / LinkedIn / GitHub-Profil einfügen]
-
----
-
-## 📝 Lizenz
-
-MIT License – frei zur Verwendung & Erweiterung

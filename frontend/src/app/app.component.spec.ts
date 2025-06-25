@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, AppComponent],
+      imports: [AppComponent],
     }).compileComponents();
   });
 
@@ -15,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should have the title "Thanh-Bookstore"', () => {
+  it(`should have the 'bank-portal' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('Thanh-Bookstore');
+    expect(app.title).toEqual('bank-portal');
   });
 
-  it('should render welcome title in h2', () => {
+  it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h2')?.textContent).toContain('Willkommen in Thanh-Bookstore');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, bank-portal');
   });
 });

@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component'; // ✅ Wichtig!
+import { AccountListComponent } from './components/account-list/account-list.component';
+import { TransferComponent } from './components/transfer/transfer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, NavbarComponent], // ✅ NavbarComponent hier importieren!
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  imports: [AccountListComponent, TransferComponent],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'Thanh-Bookstore';
+  title = 'bank-portal';
 }
-// Hier wird die Navbar-Komponente in der AppComponent verwendet.
