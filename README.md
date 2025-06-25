@@ -1,66 +1,76 @@
+# 💼 CPU Bankportal Demo – Fullstack Java + Angular Microservices
 
-# 💼 CPU Bankportal Demo – Fullstack Java + Angular
-
-Dieses Projekt wurde im Rahmen meiner Bewerbung bei der **CPU Consulting & Software GmbH** als *Fullstack Entwickler (m/w/d)* erstellt.  
-Es demonstriert eine moderne Webanwendung mit **Spring Boot (Java)** und **Angular (TypeScript)** im Microservice-Stil, ergänzt durch **Docker**, REST-API und Clean Code Prinzipien.
+Dieses Projekt demonstriert ein modernes Online-Banking-Portal auf Basis einer Microservice-Architektur – entwickelt mit **Spring Boot (Java)** und **Angular (TypeScript)**, bereitgestellt über **Docker Compose**.
 
 ---
 
-## 🚀 Projektübersicht
+## 🚀 Projektüberblick
 
-Das Bankportal-Demo besteht aus zwei Hauptkomponenten:
+Das Bankportal besteht aus mehreren eigenständigen Services:
 
-- **Frontend:** Angular-Anwendung mit TypeScript, Angular Material, SCSS  
-- **Backend:** Spring Boot Microservices mit REST-API, Datenpersistenz und Service-Kommunikation
-
-### 🏦 Funktionen (Demo-Zweck)
-
-| Funktion | Beschreibung |
-|----------|--------------|
-| Kontoübersicht | Anzeige vorhandener Konten mit Salden (Backend-API: `/accounts`) |
-| Überweisung ausführen | Formular zur Durchführung einer einfachen Überweisung (POST `/transfers`) |
-| Benutzerliste | Statische Benutzerübersicht (Optional erweiterbar) |
-| Login (optional) | Dummy-Login oder JWT-basiert möglich |
+- **Frontend:** Angular-App (`/frontend`)
+- **Backend:** Microservices
+  - **Account Service** (`/account-service`): Verwaltung von Konten und Kontobewegungen
+  - **Auth Service** (`/auth-service`): Authentifizierung & (optional) Autorisierung (siehe TODO)
 
 ---
 
-## 🧰 Verwendete Technologien
+## 🏦 Hauptfunktionen
 
-### 📌 Backend
-- Java 17
-- Spring Boot 3 (Web, Data JPA, Validation)
-- REST API, DTOs, Exception Handling
-- H2 / PostgreSQL
-- Docker, Docker Compose
+| Funktion               | Beschreibung                                                |
+|------------------------|------------------------------------------------------------|
+| Kontoübersicht         | Anzeige vorhandener Konten und Salden (`/accounts`)         |
+| Überweisung ausführen  | Formular zur Durchführung einer Überweisung (`/transfers`)  |
+| Benutzerliste          | Statische Benutzerübersicht (erweiterbar)                   |
+| Login (optional)       | Dummy-Login oder JWT-basiert möglich (siehe TODO)           |
 
-### 💡 Frontend
-- Angular 17
-- TypeScript, Angular Material, SCSS
-- Reactive Forms, HttpClient
-- Routing & Komponentenstruktur
+---
 
-### 🛠 DevOps & Tools
-- Dockerfile, `docker-compose.yml`
-- Git, GitHub Actions (Optional: Jenkins)
+## 🧰 Tech-Stack
+
+**Backend-Services**
+- Java 17, Spring Boot 3 (Web, Data JPA, Validation)
+- REST APIs, DTOs, Exception Handling
+- H2 (Standard) oder PostgreSQL (optional)
 - Maven Wrapper
 
+**Frontend**
+- Angular 17, Angular Material, SCSS
+- TypeScript, Reactive Forms, HttpClient
+
+**DevOps**
+- Docker, Docker Compose
+- Git, GitHub Actions (optional)
+
 ---
 
-## 🧪 Architekturüberblick
+## 🧪 Architektur
 
 ```text
-+----------------+        REST        +------------------+
-|   Angular App  | <----------------> | Spring Boot API  |
-+----------------+                   +------------------+
-    Kontoansicht                         /accounts
-    Überweisungsformular                 /transfers
-````
+.
+├── account-service      # Spring Boot Microservice für Konten
+├── auth-service         # Spring Boot Microservice für Authentifizierung (TODO)
+├── frontend             # Angular Anwendung
+├── docs                 # Projektdokumentation
+├── docker-compose.yml   # Multi-Container Setup
+├── README.md
+└── ...
+```
+
+```text
++----------------+       REST        +---------------------+
+|   Angular App  | <--------------> | Account Service     |
+|  (Frontend)    |                  +---------------------+
++----------------+       REST        +---------------------+
+                                <--> | Auth Service (TODO) |
+                                     +---------------------+
+```
 
 ---
 
 ## ▶️ Lokaler Start (nur mit Docker Compose)
 
-Stelle sicher, dass **Docker** und **Docker Compose** auf deinem System installiert sind.
+Voraussetzung: **Docker** & **Docker Compose** sind installiert.
 
 Im Hauptverzeichnis des Projekts:
 
@@ -68,42 +78,46 @@ Im Hauptverzeichnis des Projekts:
 docker-compose up --build
 ```
 
-> Dadurch werden Backend und Frontend automatisch als Container gestartet.
->
-> - Das Backend ist erreichbar unter: [http://localhost:8080](http://localhost:8080)
-> - Das Frontend ist erreichbar unter: [http://localhost:4200](http://localhost:4200)
+- **Frontend:** [http://localhost:4200](http://localhost:4200)
+- **Backend Account-Service:** [http://localhost:8080](http://localhost:8080)
+- **Backend Auth-Service:** (Port ggf. in `docker-compose.yml` einsehen, aktuell als TODO)
 
-**Tipp:**  
-Mit `docker-compose down` kannst du alle gestarteten Container wieder stoppen.
+Beenden mit:
+
+```bash
+docker-compose down
+```
 
 ---
-```
+
+## 📝 TODO
+
+- [ ] Frontend-Login an den `auth-service` anbinden (JWT, Login-Formular, Session-Handling)
+- [x] Auth-Service Grundstruktur angelegt (noch nicht mit Frontend verbunden)
+- [x] Account-Service und Frontend lauffähig mit Docker Compose
 
 ---
 
 ## 📸 Screenshots
 
-> (Hier ggf. Screenshots des Frontends einfügen)
-docs/frontend.pdf
+Der aktuelle Screenshot des Frontends ist im PDF hinterlegt:  
+[`docs/frontend.pdf`](docs/frontend.pdf)
 
 ---
 
-## 💬 Zielsetzung & Bezug zur Stelle
+## 💬 Zielsetzung
 
-Dieses Demo-Projekt zeigt meine Fähigkeiten im Bereich:
+Dieses Demo-Projekt zeigt meine Fähigkeiten in:
+- **Fullstack-Entwicklung mit Spring Boot & Angular**
+- **Microservice-Architektur und Docker**
+- **Clean Code, Layering und RESTful APIs**
 
-* **Fullstack-Entwicklung mit Java, Spring Boot und Angular**
-* **Clean Code, Layering und RESTful API Design**
-* **Modularer Aufbau und DevOps-Ansätze mit Docker**
-
-Ich freue mich darauf, dieses Projekt im persönlichen Gespräch weiter zu erläutern und gemeinsam mit dem CPU-Team spannende Softwarelösungen zu gestalten.
+Ich freue mich, dieses Projekt im persönlichen Gespräch weiter zu erläutern.
 
 ---
 
 ## 👤 Autor
 
-**Duc Thanh Nguyen**
-🔗 [GitHub-Portfolio mit weiteren Projekten](https://github.com/thanhtuanh/bewerbung)
+**Duc Thanh Nguyen**  
+🔗 [GitHub-Portfolio](https://github.com/thanhtuanh/bewerbung)  
 📧 [n.thanh@gmx.de](mailto:n.thanh@gmx.de)
-
-```
