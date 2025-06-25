@@ -84,6 +84,7 @@ Mit `docker-compose down` kannst du alle gestarteten Container wieder stoppen.
 ## 📸 Screenshots
 
 > (Hier ggf. Screenshots des Frontends einfügen)
+docs/frontend.pdf
 
 ---
 
