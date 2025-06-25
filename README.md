@@ -105,14 +105,27 @@ Der aktuelle Screenshot des Frontends ist im PDF hinterlegt:
 
 ---
 
-## 💬 Zielsetzung
+## 🎯 Projektziele & Bezug zur Stelle
 
-Dieses Demo-Projekt zeigt meine Fähigkeiten in:
-- **Fullstack-Entwicklung mit Spring Boot & Angular**
-- **Microservice-Architektur und Docker**
-- **Clean Code, Layering und RESTful APIs**
+Dieses Projekt wurde **gezielt für meine Bewerbung als Full-Stack Entwickler (m/w/d) bei der CPU Consulting & Software GmbH** entwickelt.
 
-Ich freue mich, dieses Projekt im persönlichen Gespräch weiter zu erläutern.
+**Das sind die Ziele & Bezugspunkte:**
+- **Demonstration moderner Fullstack-Entwicklung** mit Java (Spring Boot) und Angular gemäß aktueller Best Practices im Bankenumfeld
+- **Microservice-Architektur** in modularer, wartbarer Struktur – als Basis für skalierbare Bankanwendungen
+- **Clean Code und Layering**, klare Trennung von Frontend und Backend, Verwendung von DTOs und Exceptions
+- **DevOps & Agile Methoden:** Docker Compose, automatisierbare Builds, Fokus auf kollaborative Entwicklung
+- **Fokus auf Qualität, Erweiterbarkeit und Teamfähigkeit:** 
+    - Umsetzung von Code-Reviews (Pull-Requests)
+    - Vorbereitung für Authentifizierung & Security (auth-service als TODO)
+    - Dokumentation und strukturierter Aufbau
+
+**Ich bringe mit:**
+- Nachweisbare Erfahrung in Angular, TypeScript, Java, Spring Boot, (S)CSS, HTML5 und Docker
+- Praxis in agiler Entwicklung, Clean Code und modularer Softwarearchitektur
+- Sehr gute Deutschkenntnisse, Teamfähigkeit und Qualitätsbewusstsein
+
+**Mein Ziel:**  
+Meine Begeisterung für Fullstack-Entwicklung und mein Know-how im Bereich moderner Bankensoftware ins Team der CPU Consulting & Software GmbH einzubringen – als motivierter, lernbereiter und verantwortungsbewusster Entwickler.
 
 ---
 
