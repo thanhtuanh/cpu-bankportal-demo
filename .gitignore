@@ -58,8 +58,6 @@ docker-compose.override.yml
 
 # === Projektspezifisch ===
 .history/
-api-tests/
-docs/
 
 # === Test & Coverage ===
 coverage/
