@@ -1,4 +1,3 @@
-
 services:
   db:
     image: postgres:15
@@ -34,5 +33,32 @@ services:
     depends_on:
       - account-service
 
+  postgres-auth:
+    image: postgres:15
+    container_name: postgres_auth
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    depends_on:
+      - postgres-auth
+    ports:
+      - "8082:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-auth:5432/authdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
 volumes:
+  postgres_auth_data:
   postgres_data:
