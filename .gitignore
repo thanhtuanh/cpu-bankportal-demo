@@ -1,4 +1,4 @@
-# --- macOS ---
+# === macOS ===
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -9,43 +9,66 @@
 .apdisk
 .TemporaryItems
 
-# --- Java / Spring Boot ---
-/target/
-/*.log
+# === IDEs & Editoren ===
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.sw?
+*.swo
+*.bak
+*.tmp
+*.log
+
+# === Java / Maven / Spring Boot ===
 *.class
 *.jar
 *.war
-*.iml
+*.ear
+target/
+**/target/
 
-# Maven wrapper
+# Maven Wrapper
 .mvn/
-!**/mvnw
-!**/mvnw.cmd
+**/mvnw
+**/mvnw.cmd
 
-# IntelliJ IDEA
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
+# === Angular / Node.js ===
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.angular/cache/
+frontend/.env
 
-# --- Angular / Node.js ---
-/frontend/node_modules/
-/frontend/dist/
-/frontend/.angular/cache/
-/frontend/.angular/
+# Optional: Lockfiles
+frontend/package-lock.json
+frontend/yarn.lock
 
-/frontend/package-lock.json
-
-# --- VS Code ---
-.vscode/
-
-# --- Docker ---
+# === Docker ===
 *.pid
 *.tar
-**/.dockerignore
+.dockerignore
+docker-compose.override.yml
 
-# --- System ---
+# === Umgebungsvariablen ===
+.env
+*.local
+*.env.*
+
+# === Projektspezifisch ===
+.history/
+api-tests/
+docs/
+
+# === Test & Coverage ===
+coverage/
+*.out
+*.test.js
+*.spec.ts
+test-results/
+
+# === Windows / System ===
 Thumbs.db
 ehthumbs.db
 Desktop.ini
