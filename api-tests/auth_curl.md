@@ -3,7 +3,7 @@ Registriert den User „admin“ im Auth-Service.
 ```bash
 curl -X POST http://localhost:8082/api/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin"}'
+  -d '{"username":"admin","password":"admin"}' 
 ```
 
 ---

@@ -124,7 +124,7 @@ Dieses Projekt wurde mit Blick auf Erweiterbarkeit und Qualität entwickelt. Fol
 ## 📸 Screenshots
 
 Der aktuelle Screenshot des Frontends ist im PDF hinterlegt:  
-[`docs/frontend.pdf`](docs/frontend.pdf)
+[`docs/screenshot.pdf`](docs/screenshot.pdf)
 
 ---
 
