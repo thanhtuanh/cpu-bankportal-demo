@@ -95,27 +95,27 @@ Dieses Projekt wurde mit Blick auf Erweiterbarkeit und Qualität entwickelt. Fol
 
 **Geplante Implementierungen (TODOs):**
 
-[ ] Frontend-Login an den auth-service anbinden (JWT, Login-Formular, Session-Handling)
+- [ ] Frontend-Login an den auth-service anbinden (JWT, Login-Formular, Session-Handling)
 
-[x] Auth-Service Grundstruktur angelegt (noch nicht mit Frontend verbunden)
+- [x] Auth-Service Grundstruktur angelegt (noch nicht mit Frontend verbunden)
 
-[x] Account-Service und Frontend lauffähig mit Docker Compose
+- [x] Account-Service und Frontend lauffähig mit Docker Compose
 
 **Qualität & Testabdeckung:**
 
-Beide Backend-Services (account-service und auth-service) wurden mit JUnit 5-Tests umfassend getestet, um die Funktionalität und Robustheit der APIs sicherzustellen. Dies trägt zur Codequalität und Wartbarkeit bei.
+- Beide Backend-Services (account-service und auth-service) wurden mit JUnit 5-Tests umfassend getestet, um die Funktionalität und Robustheit der APIs sicherzustellen. Dies trägt zur Codequalität und Wartbarkeit bei.
 
-Erweiterung der Testabdeckung um Integrationstests und End-to-End-Tests.
+- Erweiterung der Testabdeckung um Integrationstests und End-to-End-Tests.
 
 **Architektur & Infrastruktur-Optimierungen:**
 
-Integration von Spring Security für den auth-service zur vollständigen JWT-basierten Authentifizierung und Autorisierung.
+- Integration von Spring Security für den auth-service zur vollständigen JWT-basierten Authentifizierung und Autorisierung.
 
-Implementierung einer zentralen API-Gateway-Lösung (z.B. Spring Cloud Gateway) für Routing, Lastverteilung und zusätzliche Sicherheitsfeatures.
+- Implementierung einer zentralen API-Gateway-Lösung (z.B. Spring Cloud Gateway) für Routing, Lastverteilung und zusätzliche Sicherheitsfeatures.
 
-Einsatz eines Message Brokers (z.B. Kafka, RabbitMQ) für asynchrone Kommunikation zwischen Microservices.
+- Einsatz eines Message Brokers (z.B. Kafka, RabbitMQ) für asynchrone Kommunikation zwischen Microservices.
 
-Monitoring und Logging-Lösungen (z.B. Prometheus, Grafana, ELK Stack) für bessere Observability.
+- Monitoring und Logging-Lösungen (z.B. Prometheus, Grafana, ELK Stack) für bessere Observability.
 
 ---
 
