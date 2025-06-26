@@ -110,6 +110,8 @@ Dieses Projekt wurde mit Blick auf Erweiterbarkeit und Qualität entwickelt. Fol
 **Architektur & Infrastruktur-Optimierungen:**
 
 - Integration von Spring Security für den auth-service zur vollständigen JWT-basierten Authentifizierung und Autorisierung.
+  
+- CI/CD-Pipelines: Implementierung von Continuous Integration und Continuous Delivery (z.B. mit GitHub Actions, Jenkins oder GitLab CI) zur Automatisierung von Build-, Test- und Deployment-Prozessen.
 
 - Implementierung einer zentralen API-Gateway-Lösung (z.B. Spring Cloud Gateway) für Routing, Lastverteilung und zusätzliche Sicherheitsfeatures.
 
