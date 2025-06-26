@@ -1,7 +1,0 @@
-com/example/bank/AccountController.class
-com/example/bank/AccountRepository.class
-com/example/bank/AccountService.class
-com/example/bank/TransferRequest.class
-com/example/bank/Account.class
-com/example/bank/AccountServiceApplication.class
-com/example/bank/AccountDto.class
