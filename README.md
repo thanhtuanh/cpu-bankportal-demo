@@ -105,27 +105,21 @@ Der aktuelle Screenshot des Frontends ist im PDF hinterlegt:
 
 ---
 
-## 🎯 Projektziele & Bezug zur Stelle
+## 💡 Optimierungsvorschläge
+Testabdeckung: 
+- Beide Backend-Services (account-service und auth-service) wurden mit JUnit 5-Tests umfassend getestet, um die Funktionalität und Robustheit der APIs sicherzustellen. Dies trägt zur Codequalität und Wartbarkeit bei.
 
-Dieses Projekt wurde **gezielt für meine Bewerbung als Full-Stack Entwickler (m/w/d) bei der CPU Consulting & Software GmbH** entwickelt.
+Weitere Optimierungen:
 
-**Das sind die Ziele & Bezugspunkte:**
-- **Demonstration moderner Fullstack-Entwicklung** mit Java (Spring Boot) und Angular gemäß aktueller Best Practices im Bankenumfeld
-- **Microservice-Architektur** in modularer, wartbarer Struktur – als Basis für skalierbare Bankanwendungen
-- **Clean Code und Layering**, klare Trennung von Frontend und Backend, Verwendung von DTOs und Exceptions
-- **DevOps & Agile Methoden:** Docker Compose, automatisierbare Builds, Fokus auf kollaborative Entwicklung
-- **Fokus auf Qualität, Erweiterbarkeit und Teamfähigkeit:** 
-    - Umsetzung von Code-Reviews (Pull-Requests)
-    - Vorbereitung für Authentifizierung & Security (auth-service als TODO)
-    - Dokumentation und strukturierter Aufbau
+- Integration von Spring Security für den auth-service zur vollständigen JWT-basierten Authentifizierung und Autorisierung.
 
-**Ich bringe mit:**
-- Nachweisbare Erfahrung in Angular, TypeScript, Java, Spring Boot, (S)CSS, HTML5 und Docker
-- Praxis in agiler Entwicklung, Clean Code und modularer Softwarearchitektur
-- Sehr gute Deutschkenntnisse, Teamfähigkeit und Qualitätsbewusstsein
+- Erweiterung der Testabdeckung um Integrationstests und End-to-End-Tests.
 
-**Mein Ziel:**  
-Meine Begeisterung für Fullstack-Entwicklung und mein Know-how im Bereich moderner Bankensoftware ins Team der CPU Consulting & Software GmbH einzubringen – als motivierter, lernbereiter und verantwortungsbewusster Entwickler.
+- Implementierung einer zentralen API-Gateway-Lösung (z.B. Spring Cloud Gateway) für Routing, Lastverteilung und zusätzliche Sicherheitsfeatures.
+
+- Einsatz eines Message Brokers (z.B. Kafka, RabbitMQ) für asynchrone Kommunikation zwischen Microservices.
+
+- Monitoring und Logging-Lösungen (z.B. Prometheus, Grafana, ELK Stack) für bessere Observability.
 
 ---
 
