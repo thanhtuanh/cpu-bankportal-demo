@@ -1,7 +1,20 @@
 services:
-  db:
-    image: postgres:15
-    container_name: postgres_db
+  
+  postgres-auth:
+    image: postgres:16
+    container_name: postgres_auth
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+      
+  postgres-account:
+    image: postgres:16
+    container_name: postgres_account
     environment:
       POSTGRES_DB: accounts
       POSTGRES_USER: postgres
@@ -9,17 +22,19 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_account_data:/var/lib/postgresql/data
+
+
 
   account-service:
     build: ./account-service
     container_name: account_service
     depends_on:
-      - db
+      - postgres-account
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/accounts
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-account:5432/accounts
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: secret
 
@@ -32,18 +47,6 @@ services:
       - "4200:80"
     depends_on:
       - account-service
-
-  postgres-auth:
-    image: postgres:15
-    container_name: postgres_auth
-    environment:
-      POSTGRES_DB: authdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_auth_data:/var/lib/postgresql/data
 
   auth-service:
     build:
@@ -60,5 +63,5 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
 
 volumes:
+  postgres_account_data:
   postgres_auth_data:
-  postgres_data:

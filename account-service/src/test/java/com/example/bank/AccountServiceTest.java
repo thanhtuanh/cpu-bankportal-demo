@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class AccountServiceTest {
@@ -42,4 +43,19 @@ class AccountServiceTest {
     }
 
     // Weitere Tests für „Nicht genügend Guthaben“ etc.
+    @Test
+    void testTransferThrowsIfNotEnoughMoney() {
+        Account sender = new Account(); sender.setId(1L); sender.setBalance(50);
+        Account receiver = new Account(); receiver.setId(2L); receiver.setBalance(0);
+        TransferRequest req = new TransferRequest();
+        req.setFromAccountId(1L);
+        req.setToAccountId(2L);
+        req.setAmount(100);
+
+        when(repo.findById(1L)).thenReturn(Optional.of(sender));
+        when(repo.findById(2L)).thenReturn(Optional.of(receiver));
+
+        Exception ex = assertThrows(RuntimeException.class, () -> service.transfer(req));
+        assertTrue(ex.getMessage().contains("Nicht genügend Guthaben"));
+    }
 }

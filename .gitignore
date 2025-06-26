@@ -1,7 +1,51 @@
-target/
-.idea/
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.apdisk
+.TemporaryItems
+
+# --- Java / Spring Boot ---
+/target/
+/*.log
+*.class
+*.jar
+*.war
 *.iml
-node_modules/
-.env
-.h2.database.properties
-.history/
+
+# Maven wrapper
+.mvn/
+!**/mvnw
+!**/mvnw.cmd
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# --- Angular / Node.js ---
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/cache/
+/frontend/.angular/
+
+/frontend/package-lock.json
+
+# --- VS Code ---
+.vscode/
+
+# --- Docker ---
+*.pid
+*.tar
+**/.dockerignore
+
+# --- System ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
