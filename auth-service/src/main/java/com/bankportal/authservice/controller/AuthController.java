@@ -1,69 +1,65 @@
+// src/main/java/com/bankportal/authservice/controller/AuthController.java
 package com.bankportal.authservice.controller;
 
-import lombok.Getter;
+import com.bankportal.authservice.model.UserEntity;
+import com.bankportal.authservice.service.AuthService;
+import com.bankportal.authservice.dto.LoginRequest;
+import com.bankportal.authservice.dto.LoginResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import com.bankportal.authservice.model.UserEntity;
-import com.bankportal.authservice.repository.UserRepository;
-import com.bankportal.authservice.service.JwtService;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // ✅ CORS aktiviert für Angular
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
+    private final com.bankportal.authservice.repository.UserRepository userRepository;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserEntity user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
-        userRepository.save(user);
-        return ResponseEntity.ok("User registered successfully");
+        System.out.println("➡️ Registrierungsversuch für Benutzer: " + user.getUsername());
+        try {
+            if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body("❌ Benutzername bereits vergeben");
+            }
+
+            // 👉 Passwort wird als Hash gespeichert
+            user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
+            user.setRole("USER"); // oder "ROLE_USER", je nach Security-Konzept
+            userRepository.save(user);
+
+            System.out.println("✅ Benutzer erfolgreich registriert: " + user.getUsername());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("✅ Benutzer erfolgreich registriert");
+
+        } catch (DataIntegrityViolationException ex) {
+            System.err.println("❌ Datenbankfehler bei Registrierung: " + ex.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("❌ Benutzername existiert bereits (DB-Constraint)");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("❌ Unerwarteter Fehler: " + e.getMessage());
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        System.out.println("🔐 Login request for: " + request.getUsername());
-
-        UserEntity user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Benutzer nicht gefunden"));
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Falsches Passwort");
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            LoginResponse loginResponse = authService.login(request);
+            return ResponseEntity.ok(loginResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "❌ Login fehlgeschlagen: " + e.getMessage()));
         }
-
-        String token = jwtService.generateToken(user.getUsername());
-
-        AuthResponse response = new AuthResponse();
-        response.setUsername(user.getUsername());
-        response.setToken(token);
-        response.setRole(user.getRole());
-
-        return ResponseEntity.ok(response);
-    }
-
-    @Getter
-    @Setter
-    static class AuthRequest {
-        private String username;
-        private String password;
-    }
-
-    @Getter
-    @Setter
-    static class AuthResponse {
-        private String username;
-        private String token;
-        private String role;
     }
 }

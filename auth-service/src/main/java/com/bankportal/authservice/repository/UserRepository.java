@@ -1,8 +1,8 @@
+// src/main/java/com/bankportal/authservice/repository/UserRepository.java
 package com.bankportal.authservice.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.bankportal.authservice.model.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 

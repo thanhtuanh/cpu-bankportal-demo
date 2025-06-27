@@ -1,25 +1,23 @@
+// src/test/java/com/bankportal/authservice/service/AuthServiceTest.java
 package com.bankportal.authservice.service;
 
 import com.bankportal.authservice.dto.LoginRequest;
 import com.bankportal.authservice.dto.LoginResponse;
-import com.bankportal.authservice.model.User;
 import com.bankportal.authservice.model.UserEntity;
 import com.bankportal.authservice.repository.UserRepository;
-import com.bankportal.authservice.service.AuthService;
-import com.bankportal.authservice.service.JwtService;
-
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
 
     UserRepository repo = mock(UserRepository.class);
@@ -29,62 +27,67 @@ class AuthServiceTest {
 
     @Test
     void loginBenutzerNichtGefunden() {
-        LoginRequest req = new LoginRequest("u", "p");
         when(repo.findByUsername("u")).thenReturn(Optional.empty());
-        assertThrows(BadCredentialsException.class, () -> service.login(req));
+        assertThrows(BadCredentialsException.class,
+                     () -> service.login(new LoginRequest("u", "p")));
     }
 
     @Test
     void loginFalschesPasswort() {
-        LoginRequest req = new LoginRequest("u", "p");
-        UserEntity user = new UserEntity(1L, "u", "hash", null);
-        when(repo.findByUsername("u")).thenReturn(Optional.of(user));
-        when(encoder.matches("p", "hash")).thenReturn(false);
-        assertThrows(BadCredentialsException.class, () -> service.login(req));
+        UserEntity u = new UserEntity();
+        u.setId(1L);
+        u.setUsername("u");
+        u.setPasswordHash("pw"); // angepasst
+        u.setRole("ROLE_USER");
+        when(repo.findByUsername("u")).thenReturn(Optional.of(u));
+        when(encoder.matches("p", "pw")).thenReturn(false);
+
+        assertThrows(BadCredentialsException.class,
+                     () -> service.login(new LoginRequest("u", "p")));
     }
 
     @Test
     void loginErfolgreich() {
-        LoginRequest req = new LoginRequest("u", "p");
-        UserEntity userEntity = new UserEntity(1L, "u", "hash", null);
-        when(repo.findByUsername("u")).thenReturn(Optional.of(userEntity));
-        when(encoder.matches("p", "hash")).thenReturn(true);
+        UserEntity u = new UserEntity(1L, "u", "pw", "ROLE_USER");
+        when(repo.findByUsername("u")).thenReturn(Optional.of(u));
+        when(encoder.matches("p", "pw")).thenReturn(true);
         when(jwt.generateToken("u")).thenReturn("jwtToken");
-        LoginResponse resp = service.login(req);
-        assertEquals("jwtToken", resp.getToken());
+
+        LoginResponse r = service.login(new LoginRequest("u", "p"));
+        assertEquals("jwtToken", r.getToken());
     }
 
     @Test
     void registerErfolgreich() {
-        User user = new User(null, null, null);
-        user.setId(null);
-        user.setUsername("neuerUser");
-        user.setPassword("plainPw");
-        // user.setRole(null); // NICHT mehr nötig!
-
+        UserEntity in = new UserEntity(null, "neuerUser", "plainPw", null);
         when(repo.findByUsername("neuerUser")).thenReturn(Optional.empty());
         when(encoder.encode("plainPw")).thenReturn("hashedPW");
-        when(repo.save(any(UserEntity.class))).thenAnswer(invocation -> {
-            UserEntity saved = invocation.getArgument(0);
+        when(repo.save(any(UserEntity.class))).thenAnswer(inv -> {
+            UserEntity saved = inv.getArgument(0);
             saved.setId(42L);
             return saved;
         });
 
-        UserEntity result = service.register(user);
-
-        assertNotNull(result);
-        assertEquals("neuerUser", result.getUsername());
-        assertEquals("hashedPW", result.getPassword());
-        assertEquals("ROLE_USER", result.getRole());
-        assertEquals(42L, result.getId());
+        UserEntity out = service.register(in);
+        assertEquals(42L, out.getId());
+        assertEquals("neuerUser", out.getUsername());
+        assertEquals("hashedPW", out.getPasswordHash()); // angepasst
+        assertEquals("ROLE_USER", out.getRole());
     }
 
-   @Test
-    void registerUserExistiertBereits() {
-        User user = new User(null, "alice", "pw");
-        user.setRole("ROLE_USER");
-        UserEntity userEntity = new UserEntity(null, "alice", "pw", "ROLE_USER");
-        when(repo.findByUsername("alice")).thenReturn(Optional.of(userEntity));
-        assertThrows(BadCredentialsException.class, () -> service.register(user));
+    @Test
+    void registerExistiertBereits() {
+        UserEntity existing = new UserEntity();
+        existing.setId(1L);
+        existing.setUsername("alice");
+        existing.setPasswordHash("hash");
+        existing.setRole("ROLE_USER");
+        when(repo.findByUsername("alice")).thenReturn(Optional.of(existing));
+
+        UserEntity newUser = new UserEntity();
+        newUser.setUsername("alice");
+        newUser.setPasswordHash("pw");
+        assertThrows(BadCredentialsException.class,
+                     () -> service.register(newUser));
     }
 }

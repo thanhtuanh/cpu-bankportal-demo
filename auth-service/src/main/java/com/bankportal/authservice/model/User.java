@@ -1,54 +1,42 @@
+// src/main/java/com/bankportal/authservice/model/User.java
 package com.bankportal.authservice.model;
 
-// Removed unused import lombok.AllArgsConstructor
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.Set;
 
-// Ensure this class exists in the specified package// Ensure this is the User class
+@Entity
+@Table(name = "users")
+@Data
+@NoArgsConstructor
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
-    private String password;
-    private String role;
 
-    // Existing fields and methods
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
-    // Add the missing constructor
-    public User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = "ROLE_USER"; // Default role
-    }
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private Set<String> roles;
 
-    // Add getters and setters if not already present
-    public Long getId() {
-        return id;
-    }
+    // … existierender Code …
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    // Alias-Getter/Setter für Tests und AuthService.register
     public String getPassword() {
-        return password;
+        // Intern speichern wir das Hash, Tests erwarten aber getPassword()
+        return this.getPasswordHash();
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String rawPassword) {
+        // Damit service.register(raw)->hash richtig aufnimmt
+        this.setPasswordHash(rawPassword);
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
