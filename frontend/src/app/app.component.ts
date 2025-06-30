@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { AccountListComponent } from './components/account-list/account-list.component';
-import { TransferComponent } from './components/transfer/transfer.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AccountListComponent, TransferComponent],
-  templateUrl: './app.component.html'
+  imports: [RouterOutlet],
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent {
   title = 'bank-portal';

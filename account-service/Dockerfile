@@ -1,12 +1,11 @@
+FROM openjdk:17-jdk-slim
 
-# Base image
-FROM eclipse-temurin:17-jdk
-
-# Set working directory
 WORKDIR /app
 
-# Copy dependencies and build
-COPY target/account-service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/account-service-*.jar app.jar
 
-# Run application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+EXPOSE 8081
+
+ENV SPRING_PROFILES_ACTIVE=docker
+
+CMD ["java", "-jar", "app.jar"]

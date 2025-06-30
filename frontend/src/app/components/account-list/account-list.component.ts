@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
+import { AuthService } from '../../services/auth.service';
 import { Account } from '../../models/account';
+import { TransferRequest } from '../../models/transfer-request';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-list',
@@ -11,54 +14,173 @@ import { Account } from '../../models/account';
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.scss']
 })
-export class AccountListComponent implements OnInit {
+export class AccountListComponent implements OnInit, OnDestroy {
   accounts: Account[] = [];
+  loading = false;
+  error = '';
 
-  newOwner: string = '';
-  newBalance: any = '';
+  // Create Account Form
+  newAccount = {
+    owner: '',
+    balance: 0
+  };
+  createLoading = false;
+  createMessage = '';
 
-  fromAccountId: any = '';
-  toAccountId: any = '';
-  amount: any = '';
+  // Transfer Form
+  transferData = {
+    fromAccountId: '',
+    toAccountId: '',
+    amount: ''
+  };
+  transferLoading = false;
+  transferMessage = '';
 
+  private subscriptions: Subscription[] = [];
 
-  constructor(private accountService: AccountService) { }
+  constructor(
+    private accountService: AccountService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadAccounts();
   }
 
-  loadAccounts() {
-    this.accountService.getAllAccounts().subscribe(data => {
-      this.accounts = data;
-    });
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  createAccount() {
-    const dto: Account = {
-      owner: this.newOwner,
-      balance: this.newBalance.toString()
-    };
+  loadAccounts(): void {
+    this.loading = true;
+    this.error = '';
 
-    this.accountService.createAccount(dto).subscribe(() => {
-      this.newOwner = '';
-      this.newBalance = ''; // vorher: 0
-      this.loadAccounts();
+    const sub = this.accountService.getAllAccounts().subscribe({
+      next: (data) => {
+        this.accounts = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = error.message;
+        this.loading = false;
+        console.error('Error loading accounts:', error);
+      }
     });
+
+    this.subscriptions.push(sub);
   }
 
-  transfer() {
-    const dto = {
-      fromAccountId: Number(this.fromAccountId),
-      toAccountId: Number(this.toAccountId),
-      amount: Number(this.amount)
+  createAccount(): void {
+    if (!this.newAccount.owner.trim()) {
+      this.createMessage = '❌ Bitte geben Sie einen Kontoinhaber an';
+      return;
+    }
+
+    if (this.newAccount.balance < 0) {
+      this.createMessage = '❌ Startguthaben darf nicht negativ sein';
+      return;
+    }
+
+    this.createLoading = true;
+    this.createMessage = '';
+
+    const accountDto: Account = {
+      owner: this.newAccount.owner.trim(),
+      balance: this.newAccount.balance.toString()
     };
 
-    this.accountService.transferMoney(dto).subscribe(() => {
-      this.fromAccountId = '';
-      this.toAccountId = '';
-      this.amount = '';
-      this.loadAccounts();
+    const sub = this.accountService.createAccount(accountDto).subscribe({
+      next: () => {
+        this.createMessage = '✅ Konto wurde erfolgreich erstellt';
+        this.newAccount = { owner: '', balance: 0 };
+        this.createLoading = false;
+        this.loadAccounts(); // Refresh list
+
+        // Clear success message after 3 seconds
+        setTimeout(() => this.createMessage = '', 3000);
+      },
+      error: (error) => {
+        this.createMessage = `❌ ${error.message}`;
+        this.createLoading = false;
+      }
     });
+
+    this.subscriptions.push(sub);
+  }
+
+  transfer(): void {
+    const fromId = Number(this.transferData.fromAccountId);
+    const toId = Number(this.transferData.toAccountId);
+    const amount = Number(this.transferData.amount);
+
+    // Validation
+    if (isNaN(fromId) || isNaN(toId) || isNaN(amount)) {
+      this.transferMessage = '❌ Bitte geben Sie gültige Zahlen ein';
+      return;
+    }
+
+    if (fromId === toId) {
+      this.transferMessage = '❌ Quell- und Zielkonto dürfen nicht identisch sein';
+      return;
+    }
+
+    if (amount <= 0) {
+      this.transferMessage = '❌ Betrag muss positiv sein';
+      return;
+    }
+
+    // Check if accounts exist
+    const fromAccount = this.accounts.find(acc => acc.id === fromId);
+    const toAccount = this.accounts.find(acc => acc.id === toId);
+
+    if (!fromAccount) {
+      this.transferMessage = `❌ Quellkonto mit ID ${fromId} nicht gefunden`;
+      return;
+    }
+
+    if (!toAccount) {
+      this.transferMessage = `❌ Zielkonto mit ID ${toId} nicht gefunden`;
+      return;
+    }
+
+    this.transferLoading = true;
+    this.transferMessage = '';
+
+    const transferRequest: TransferRequest = {
+      fromAccountId: fromId,
+      toAccountId: toId,
+      amount: amount
+    };
+
+    const sub = this.accountService.transferMoney(transferRequest).subscribe({
+      next: () => {
+        this.transferMessage = '✅ Überweisung erfolgreich durchgeführt';
+        this.transferData = { fromAccountId: '', toAccountId: '', amount: '' };
+        this.transferLoading = false;
+        this.loadAccounts(); // Refresh list
+
+        // Clear success message after 3 seconds
+        setTimeout(() => this.transferMessage = '', 3000);
+      },
+      error: (error) => {
+        this.transferMessage = `❌ ${error.message}`;
+        this.transferLoading = false;
+      }
+    });
+
+    this.subscriptions.push(sub);
+  }
+
+  getCurrentUser(): string {
+    const user = this.authService.getCurrentUser();
+    return user ? user.username : 'Unbekannt';
+  }
+
+  formatBalance(balance: string | number): string {
+    const num = typeof balance === 'string' ? parseFloat(balance) : balance;
+    return new Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(num);
   }
 }
